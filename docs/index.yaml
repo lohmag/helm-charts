@@ -16,6 +16,6 @@ entries:
       name: Nikita Massalitin
     name: clickhouse
     urls:
-    - https://github.com/lohmag/helm-charts/docs/clickhouse-0.1.0.tgz
+    - clickhouse-0.1.0.tgz
     version: 0.1.0
 generated: "2019-11-29T12:17:20.392487+03:00"
