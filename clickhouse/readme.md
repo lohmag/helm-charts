@@ -30,3 +30,5 @@ If you use just one replica, zookeeper can be turned off at all - by setting
 If you want to use helm build-in zookeeper you need to set `clusterDomain` of your k8s.  
 Default clickhouse user `default` with no password.  
 All configuration done through configmaps.
+
+For more information please refer to the (https://github.com/lohmag/helm-charts/tree/master/clickhouse).
