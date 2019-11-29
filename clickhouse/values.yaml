@@ -1,0 +1,30 @@
+service:
+  annotations: {}
+
+clickhouse:
+  replicaCount: 1
+  image: yandex/clickhouse-server
+  tag: 19.13
+  pullPolicy: IfNotPresent
+  disk: 256Mi
+  user: default
+  password:
+  usePersistentVolume: false
+  resources:
+    limits:
+      cpu: 125m
+      memory: 256Mi
+    requests:
+      cpu: 125m
+      memory: 256Mi
+
+# zookeeper
+zookeeper:
+  enabled: false
+  fullnameOverride: clickhouse-zookeeper
+  replicaCount: 1
+  clusterDomain: cluster.local
+# Can be true only if zookeeper.enabled is false
+externalZookeeper:
+  enabled: false
+  servers: []

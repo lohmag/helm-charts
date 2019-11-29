@@ -1,0 +1,8 @@
+apiVersion: v1
+appVersion: "19.13"
+description: ClickHouse Helm Chart
+name: clickhouse
+version: 0.1.0
+maintainers:
+- name: Nikita Massalitin
+  email: nmassalitin@pushwoosh.com

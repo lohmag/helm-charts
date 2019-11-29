@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: clickhouse
+spec:
+  replicas: {{ .Values.clickhouse.replicaCount }}
+  serviceName: clickhouse
+  {{ if .Values.clickhouse.usePersistentVolume }}
+  volumeClaimTemplates:
+    - metadata:
+        name: clickhouse-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.clickhouse.disk }}
+  {{ end }}
+  selector:
+    matchLabels:
+      app: clickhouse
+  template:
+    metadata:
+      labels:
+        app: clickhouse
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      volumes:
+        - name: clickhouse-server-config
+          configMap:
+            name: clickhouse-server-config
+        - name: clickhouse-user-config
+          configMap:
+            name: clickhouse-user-config
+        {{ if not .Values.clickhouse.usePersistentVolume }}
+        - name: clickhouse-data
+          emptyDir: {}
+        {{ end }}
+      containers:
+        - name: clickhouse-server
+          image: {{ .Values.clickhouse.image }}:{{ .Values.clickhouse.tag }}
+          imagePullPolicy: {{ .Values.clickhouse.pullPolicy }}
+          env:
+            - name: TZ
+              value: UTC
+          ports:
+            - name: native
+              containerPort: 9000
+              protocol: TCP
+            - name: http
+              containerPort: 8123
+              protocol: TCP
+            - name: interserver
+              containerPort: 9009
+              protocol: TCP
+          volumeMounts:
+            - name: clickhouse-data
+              mountPath: /var/lib/clickhouse
+            - name: clickhouse-server-config
+              mountPath: /etc/clickhouse-server/config.d
+            - name: clickhouse-user-config
+              mountPath: /etc/clickhouse-server/users.d
+          resources: {{ toYaml .Values.clickhouse.resources | nindent 12 }}

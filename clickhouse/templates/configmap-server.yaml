@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clickhouse-server-config
+  labels:
+    app: clickhouse-server-config
+data:
+  system.xml: |-
+    <yandex>
+      <listen_host>::</listen_host>
+      <listen_host>0.0.0.0</listen_host>
+      <listen_try>1</listen_try>
+      <compression replace="replace">
+        <case>
+          <method>zstd</method>
+        </case>
+      </compression>
+      <logger>
+        <level>trace</level>
+        <console>1</console>
+      </logger>
+    </yandex>
+  remote_servers.xml: |-
+    <yandex>
+      <remote_servers replace="replace">
+        <clicks_cluster>
+          <shard>
+            <internal_replication>true</internal_replication>
+            {{range $i, $e := until (atoi (printf "%d" (int64 .Values.clickhouse.replicaCount))) }}
+            <replica>
+                <default_database>default</default_database>
+                <host>clickhouse-{{$i}}.clickhouse</host>
+                <port>9000</port>
+            </replica>
+            {{end}}
+          </shard>
+        </clicks_cluster>
+      </remote_servers>
+    </yandex>
+  zookeeper.xml: |-
+    <yandex>
+    {{ if .Values.zookeeper.enabled }}
+      <zookeeper replace="replace">
+      {{range $i, $zk := until (atoi (printf "%d" (int64 .Values.zookeeper.replicaCount))) }}
+        <node>
+            <host>clickhouse-zookeeper-{{$i}}.clickhouse-zookeeper-headless</host>
+            <port>2181</port>
+        </node>
+      {{end}}
+      </zookeeper>
+    {{ else if .Values.externalZookeeper.enabled }}
+    <zookeeper replace="replace">
+    {{ range .Values.externalZookeeper.servers }}
+      <node>
+          <host>{{ . }}</host>
+          <port>2181</port>
+      </node>
+    {{ end }}
+    </zookeeper>
+    {{ end }}
+    </yandex>
