@@ -4,7 +4,7 @@ service:
 clickhouse:
   replicaCount: 1
   image: yandex/clickhouse-server
-  tag: 19.13
+  tag: 19.17
   pullPolicy: IfNotPresent
   disk: 256Mi
   user: default

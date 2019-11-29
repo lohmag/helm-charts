@@ -2,18 +2,35 @@ apiVersion: v1
 entries:
   clickhouse:
   - apiVersion: v1
-    appVersion: "19.13"
-    home: https://clickhouse.yandex/
-    icon: https://clickhouse.yandex/images/logo.png
-    description: ClickHouse is an open source column-oriented database management
-      system capable of real time generation of analytical data reports using SQL
-      queries
-    created: "2019-11-29T12:17:20.395506+03:00"
+    appVersion: "19.17"
+    created: "2019-11-29T14:52:14.007268+03:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper
       repository: https://charts.bitnami.com/bitnami
       version: 4.x.x
+    description: ClickHouse is an open source column-oriented database management
+      system capable of real time generation of analytical data reports using SQL
+      queries
+    digest: caa88639d185709934413b12fd6ff98afd0db4535a9f888e903bdd3636e74d35
+    home: https://clickhouse.yandex/
+    icon: https://clickhouse.yandex/images/logo.png
+    maintainers:
+    - email: nmassalitin@pushwoosh.com
+      name: Nikita Massalitin
+    name: clickhouse
+    urls:
+    - clickhouse-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v1
+    appVersion: "19.13"
+    created: "2019-11-29T14:52:14.005607+03:00"
+    dependencies:
+    - condition: zookeeper.enabled
+      name: zookeeper
+      repository: https://charts.bitnami.com/bitnami
+      version: 4.x.x
+    description: ClickHouse Helm Chart
     digest: d991f5ce01542b1e8c94ba9b1fc51f4b0fb86aa97f366588b9894d6297c3704c
     maintainers:
     - email: nmassalitin@pushwoosh.com
@@ -22,4 +39,4 @@ entries:
     urls:
     - clickhouse-0.1.0.tgz
     version: 0.1.0
-generated: "2019-11-29T12:17:20.392487+03:00"
+generated: "2019-11-29T14:52:14.002442+03:00"
