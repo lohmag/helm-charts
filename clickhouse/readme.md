@@ -13,5 +13,5 @@ All configuration done through configmaps.
 ```bash
 helm repo add lohmag https://lohmag.github.io/helm-charts/
 helm repo update
-helm install  clickhouse lohmag/clickhouse
+helm install clickhouse lohmag/clickhouse
 ```
